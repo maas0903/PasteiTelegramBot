@@ -96,22 +96,22 @@ public static boolean EMailSender(String host, String port, final String from, f
         String host = "smtp.gmail.com";
         String port = "587";
         String from = EmailAddressFrom;
-        String pass = EmailPasswordFrom;
+        String password = EmailPasswordFrom;
         String to = EmailAddressTo;
         String cc = EmailAddressCC;
-        String  sub = RemotePublicIpNameForEmail+" Public IP Change";
-        String mess = Ip;
+        String  subject = RemotePublicIpNameForEmail+" Public IP Change";
+        String message = Ip;
         
         for (int i=1; i < 11; i++){
             
             try {
-              if (EMailSender(host, port, from, pass, to, cc, sub, mess)){
-                Log("Try number "+i+" Email sent.");
-                break;
+              if (EMailSender(host, port, from, password, to, cc, subject, message)){
+                  Log("Try number "+i+" Email sent.");
+                  break;
               }
               else{
-                Log("Try number "+i+" Email not sent. Sleeping for 5s");
-                Thread.sleep(5000);
+                  Log("Try number "+i+" Email not sent. Sleeping for 5s");
+                  Thread.sleep(5000);
               }
             } catch (InterruptedException ex) {
                 Logger.getLogger(PipFx.class.getName()).log(Level.SEVERE, null, ex);
