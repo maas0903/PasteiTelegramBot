@@ -53,32 +53,42 @@ public class PasteiBot extends TelegramLongPollingBot {
                     .setText(update.getMessage().getText());
             try {
                 String txt = message.getText();
-                if ("ON".equals(txt.toUpperCase())) {
-                    botPin.high();
-                    System.out.println("Should be On");
-                } else if ("OFF".equals(txt.toUpperCase())) {
-                    botPin.low();
-                    System.out.println("Should be Off");
-                } else if ("IP".equals(txt.toUpperCase())) {
-                    message.setText("Public Ip Address is: " + PasteiTelegramBot.GetPublicIp());
-                } else if ("/START".equals(txt.toUpperCase())) {
-                    message.setText("Bot is started :-)");
-                } else if ("PIC".equals(txt.toUpperCase())) {
-                    try {
-                        Runtime.getRuntime().exec("fswebcam -r 1280x720 --no-banner t1.jpg");
-                        System.out.println("Waithing to save picture...");
-                        Thread.sleep(2000);
-                        System.out.println("Sending...");
-                        //message.setText("Sending picture ... ");
-                        sendImageUploadingAFile("t1.jpg", update.getMessage().getChatId().toString());
-                        System.out.println("Picture sent");
-                    } catch (Exception e) {
-                        System.out.println("Exception taking photo: " + e.getMessage());
-                    }
-                } else {
+                if (null == txt.toUpperCase()) {
                     String sTxt = txt + " received - nothing to execute";
                     System.out.println(sTxt);
                     message.setText(sTxt);
+                } else switch (txt.toUpperCase()) {
+                    case "ON":
+                        botPin.high();
+                        System.out.println("Should be On");
+                        break;
+                    case "OFF":
+                        botPin.low();
+                        System.out.println("Should be Off");
+                        break;
+                    case "IP":
+                        message.setText("Public Ip Address is: " + PasteiTelegramBot.GetPublicIp());
+                        break;
+                    case "/START":
+                        message.setText("Bot is started :-)");
+                        break;
+                    case "PIC":
+                        try {
+                            Runtime.getRuntime().exec("fswebcam -r 1280x720 --no-banner t1.jpg");
+                            System.out.println("Waithing to save picture...");
+                            Thread.sleep(2000);
+                            System.out.println("Sending...");
+                            //message.setText("Sending picture ... ");
+                            sendImageUploadingAFile("t1.jpg", update.getMessage().getChatId().toString());
+                            System.out.println("Picture sent");
+                        } catch (Exception e) {
+                            System.out.println("Exception taking photo: " + e.getMessage());
+                        }   break;
+                    default:
+                        String sTxt = txt + " received - nothing to execute";
+                        System.out.println(sTxt);
+                        message.setText(sTxt);
+                        break;
                 }
                 execute(message);
             } catch (TelegramApiException e) {
